@@ -1,47 +1,32 @@
-const express =require('express')
-const app=express();
-const{products}=require('./data')
-app.get('/',(req,res)=>
-{
-    res.send('<h1>Home Page</h1> <a href="/api/products"<a href="/api/products">Products</a>')
-    // send the response in json
+const express=require('express')
+const app=express()
+const logger =require('./logger')
 
-  
-})
+// req=>middleware=>res
 
-app.get('/api/products/',(req,res)=>
-{
-    const newProducts=products.map((product)=>{
-        const{id,name,image}=product;
-        return {id,name,image}
-    })
-    res.json(newProducts)
+app.use('/api',logger)
 
-})
-// :productid is route parameter
-app.get('/api/products/:productID',(req,res)=>
-{
-    console.log(req.params)
-     // it return the string
-     const{productID}=req.params
-
-    const singleProduct=products.find((product)=>{ return product.id===Number(productID)})
-
-    if(!singleProduct){
-        return res.status(404).send("product doesn't exist")
-    }
+// logger is middleware which is the 
+app.get('/',(req,res)=>{
    
-    res.json(singleProduct)
+res.send('Home')
+
+})
+app.get('/about',(req,res)=>{
+res.send('ABOUT')
+
+})
+app.get('/api/products',(req,res)=>{
+
+res.send('Products')
+
+})
+app.get('/api/items',(req,res)=>{
+
+res.send('Items')
 
 })
 
-app.get('/api/products/:productID/reviews/:reviewID',(req,res)=>{
-    console.log(req.params)
-    res.send('HELLO WORLD')
+app.listen(3000,()=>{
+    console.log('Listening on port 3000......')
 })
-
-app.listen(3000,(req,res)=>{
-
-    console.log('Server Is Listening on port 3000')
-})
-

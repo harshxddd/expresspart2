@@ -1,0 +1,13 @@
+const logger=(req,res,next)=>{
+    const method =req.method
+    const url=req.url
+    const time=new Date().getFullYear()
+
+    console.log(method,url,time)
+    // do this res.send('Testing') OR USE NEXT FUNCTION always use next
+    next()
+
+}
+
+
+module.exports=logger
