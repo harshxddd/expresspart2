@@ -1,32 +1,19 @@
 const express=require('express')
 const app=express()
-const logger =require('./logger')
 
-// req=>middleware=>res
+const people=require('./routes/people')
+const credential=require('./routes/auth')
 
-app.use('/api',logger)
+app.use(express.static('./methods-public'))
 
-// logger is middleware which is the 
-app.get('/',(req,res)=>{
-   
-res.send('Home')
+// parse form data
+app.use(express.json())
+app.use(express.urlencoded({extended:false}))
+app.use('/api/people',people)
+app.use('/login',credential)
 
-})
-app.get('/about',(req,res)=>{
-res.send('ABOUT')
 
-})
-app.get('/api/products',(req,res)=>{
-
-res.send('Products')
-
-})
-app.get('/api/items',(req,res)=>{
-
-res.send('Items')
-
-})
 
 app.listen(3000,()=>{
-    console.log('Listening on port 3000......')
+    console.log("SERVER IS LISTENING ON PORT 3000....")
 })
